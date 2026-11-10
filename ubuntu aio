@@ -2,28 +2,27 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-echo "Ubuntu AIO installer started"
-echo "Checking operating system..."
+echo "================================"
+echo " MIRAJ VPN - UBUNTU AIO"
+echo "================================"
 
-if [ ! -f /etc/os-release ]; then
-    echo "OS information not found."
+if [ "$EUID" -ne 0 ]; then
+    echo "Run as root."
     exit 1
 fi
 
-. /etc/os-release
+source /etc/os-release
 
-if [[ "$ID" != "ubuntu" ]]; then
-    echo "This installer supports Ubuntu only."
+if [[ "$ID" != "ubuntu" || "$VERSION_ID" != "24.04" ]]; then
+    echo "Only Ubuntu 24.04 is supported."
     exit 1
 fi
 
-if [[ "$VERSION_ID" != "24.04" ]]; then
-    echo "Ubuntu 24.04 is required."
-    exit 1
-fi
+export DEBIAN_FRONTEND=noninteractive
 
 apt-get update
-apt-get install -y curl wget git ca-certificates
+apt-get install -y curl wget git ca-certificates \
+    openssl jq unzip tar
 
-echo "Basic preparation completed."
-echo "VPN services are not installed yet."
+echo "Ubuntu 24.04 preparation completed."
+echo "VPN installation is not enabled yet."
