@@ -1,1 +1,29 @@
 
+#!/bin/bash
+set -Eeuo pipefail
+
+echo "================================"
+echo " MIRAJ VPN - DEBIAN 12 AIO"
+echo "================================"
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Run as root."
+    exit 1
+fi
+
+source /etc/os-release
+
+if [[ "$ID" != "debian" || "$VERSION_ID" != "12" ]]; then
+    echo "Only Debian 12 is supported."
+    exit 1
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update
+apt-get install -y curl wget git ca-certificates \
+    openssl jq unzip tar
+
+echo "Debian 12 preparation completed."
+echo "VPN installation is not enabled yet."
+
